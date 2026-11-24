@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập - Hệ thống Lưu trữ & Chia sẻ Tài liệu</title>
+    <!-- Nhúng Tailwind CSS để làm giao diện nhanh và đẹp -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Nhúng thư viện Supabase JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
+
+    <div class="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md border border-slate-200">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                </svg>
+            </div>
+            <h1 id="form-title" class="text-2xl font-bold text-slate-800">Đăng nhập hệ thống</h1>
+            <p class="text-sm text-slate-500 mt-1">Kho lưu trữ & chia sẻ tài liệu đám mây</p>
+        </div>
+
+        <!-- Thông báo lỗi / thành công -->
+        <div id="alert-box" class="hidden mb-4 p-3 rounded-lg text-sm font-medium"></div>
+
+        <!-- Form Đăng nhập / Đăng ký -->
+        <form id="auth-form" class="space-y-4">
+            <!-- Trường Họ tên (chỉ hiện khi Đăng ký) -->
+            <div id="fullname-group" class="hidden">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Họ và tên</label>
+                <input type="text" id="fullname" placeholder="Nguyễn Văn A" 
+                    class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                <input type="email" id="email" required placeholder="sinhvien@ictu.edu.vn" 
+                    class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Mật khẩu</label>
+                <input type="password" id="password" required placeholder="••••••••" minlength="6"
+                    class="w-full px-4 py-2.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition">
+            </div>
+
+            <button type="submit" id="submit-btn" 
+                class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2.5 rounded-lg transition duration-200 shadow-sm cursor-pointer">
+                Đăng nhập
+            </button>
+        </form>
+
+        <!-- Chuyển đổi giữa Đăng nhập và Đăng ký -->
+        <div class="mt-6 text-center text-sm text-slate-600">
+            <span id="toggle-text">Chưa có tài khoản?</span>
+            <button type="button" id="toggle-btn" class="text-emerald-600 font-semibold hover:underline ml-1 cursor-pointer">
+                Đăng ký ngay
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // 1. CẤU HÌNH KẾT NỐI SUPABASE (BẮT BUỘC THAY)
+        // ==========================================
+        const SUPABASE_URL = 'https://qbtplsnpamgzilyzmbxd.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_8Fh0_TfkHImoPGO748DzAg_zFPeJCo1';
+
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // ==========================================
+        // 2. XỬ LÝ GIAO DIỆN & LOGIC AUTH
+        // ==========================================
+        let isLoginMode = true;
+
+        const formTitle = document.getElementById('form-title');
+        const fullnameGroup = document.getElementById('fullname-group');
+        const submitBtn = document.getElementById('submit-btn');
+        const toggleText = document.getElementById('toggle-text');
+        const toggleBtn = document.getElementById('toggle-btn');
+        const authForm = document.getElementById('auth-form');
+        const alertBox = document.getElementById('alert-box');
+
+        // Hàm hiển thị thông báo
+        function showAlert(message, isError = true) {
+            alertBox.textContent = message;
+            alertBox.className = `mb-4 p-3 rounded-lg text-sm font-medium ${
+                isError ? 'bg-red-50 text-red-600 border border-red-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+            }`;
+            alertBox.classList.remove('hidden');
+        }
+
+        // Chuyển đổi qua lại giữa form Đăng nhập và Đăng ký
+        toggleBtn.addEventListener('click', () => {
+            isLoginMode = !isLoginMode;
+            alertBox.classList.add('hidden');
+            
+            if (isLoginMode) {
+                formTitle.textContent = 'Đăng nhập hệ thống';
+                fullnameGroup.classList.add('hidden');
+                submitBtn.textContent = 'Đăng nhập';
+                toggleText.textContent = 'Chưa có tài khoản?';
+                toggleBtn.textContent = 'Đăng ký ngay';
+            } else {
+                formTitle.textContent = 'Tạo tài khoản mới';
+                fullnameGroup.classList.remove('hidden');
+                submitBtn.textContent = 'Đăng ký';
+                toggleText.textContent = 'Đã có tài khoản?';
+                toggleBtn.textContent = 'Đăng nhập';
+            }
+        });
+
+        // Kiểm tra nếu người dùng đã đăng nhập sẵn thì chuyển thẳng vào trang chủ
+        async function checkCurrentUser() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) {
+                window.location.href = 'dashboard.html';
+            }
+        }
+        checkCurrentUser();
+
+        // Xử lý khi bấm nút Submit (Đăng nhập / Đăng ký)
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            alertBox.classList.add('hidden');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Đang xử lý...';
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const fullname = document.getElementById('fullname').value.trim();
+
+            try {
+                if (isLoginMode) {
+                    // XỬ LÝ ĐĂNG NHẬP
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({
+                        email: email,
+                        password: password,
+                    });
+
+                    if (error) throw error;
+
+                    showAlert('Đăng nhập thành công! Đang chuyển hướng...', false);
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html'; // Chuyển sang trang chính
+                    }, 1000);
+
+                } else {
+                    // XỬ LÝ ĐĂNG KÝ
+                    const { data, error } = await supabaseClient.auth.signUp({
+                        email: email,
+                        password: password,
+                        options: {
+                            data: {
+                                full_name: fullname || email.split('@')[0]
+                            }
+                        }
+                    });
+
+                    if (error) throw error;
+
+                    showAlert('Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.', false);
+                    // Tự động chuyển về giao diện đăng nhập sau 1.5s
+                    setTimeout(() => {
+                        if (!isLoginMode) toggleBtn.click();
+                    }, 1500);
+                }
+            } catch (err) {
+                showAlert('Lỗi: ' + err.message, true);
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = isLoginMode ? 'Đăng nhập' : 'Đăng ký';
+            }
+        });
+    </script>
+</body>
+</html>

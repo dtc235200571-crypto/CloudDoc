@@ -34,7 +34,7 @@
                 </div>
                 <div>
                     <span class="font-display font-bold text-lg tracking-tight text-slate-800">Cloud<span class="text-indigo-600">Doc</span></span>
-                    <p class="text-[10px] font-semibold text-slate-400 -mt-1">Smart Cloud Drive</p>
+                    <p class="text-[10px] font-semibold text-slate-400 -mt-1">Private Cloud Drive</p>
                 </div>
             </div>
 
@@ -52,7 +52,7 @@
                 </button>
                 <button onclick="switchTab('all')" id="nav-all" class="nav-item w-full flex items-center gap-3 px-3.5 py-2 rounded-2xl text-slate-600 hover:bg-slate-100/80 transition cursor-pointer">
                     <i data-lucide="folder-open" class="w-4 h-4"></i>
-                    <span>Thư viện tài liệu</span>
+                    <span>Tất cả tài liệu</span>
                 </button>
                 <button onclick="switchTab('mine')" id="nav-mine" class="nav-item w-full flex items-center gap-3 px-3.5 py-2 rounded-2xl text-slate-600 hover:bg-slate-100/80 transition cursor-pointer">
                     <i data-lucide="user-check" class="w-4 h-4"></i>
@@ -102,27 +102,19 @@
             <div class="flex items-center gap-4 flex-1 max-w-lg">
                 <div class="relative w-full">
                     <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-2.5"></i>
-                    <input type="text" id="global-search" placeholder="Tìm nhanh tài liệu, thư mục, người gửi..."
+                    <input type="text" id="global-search" placeholder="Tìm nhanh tài liệu, thư mục của bạn..."
                         class="w-full bg-slate-100/80 hover:bg-slate-100 focus:bg-white focus:ring-2 focus:ring-indigo-500/30 border border-transparent focus:border-indigo-300 text-slate-700 placeholder-slate-400 text-xs pl-9 pr-4 py-2 rounded-2xl outline-none transition">
                 </div>
             </div>
 
-            <div class="flex items-center gap-3">
-                <button onclick="toggleChatDrawer()" class="relative bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-2xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer">
-                    <i data-lucide="message-circle-heart" class="w-4 h-4"></i>
-                    <span class="hidden md:inline">Trò chuyện nhóm</span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-                </button>
-
-                <div class="flex items-center gap-2 pl-3 border-l border-slate-200">
-                    <div id="user-avatar" class="w-7 h-7 rounded-full bg-gradient-to-tr from-amber-400 to-orange-400 text-white font-bold text-[11px] flex items-center justify-center shadow-xs">
-                        U
-                    </div>
-                    <span id="user-email-header" class="text-xs font-bold text-slate-700 hidden sm:inline truncate max-w-[140px]">Đang tải...</span>
-                    <button id="logout-btn" title="Đăng xuất" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition cursor-pointer">
-                        <i data-lucide="log-out" class="w-4 h-4"></i>
-                    </button>
+            <div class="flex items-center gap-2 pl-3">
+                <div id="user-avatar" class="w-7 h-7 rounded-full bg-gradient-to-tr from-amber-400 to-orange-400 text-white font-bold text-[11px] flex items-center justify-center shadow-xs">
+                    U
                 </div>
+                <span id="user-email-header" class="text-xs font-bold text-slate-700 hidden sm:inline truncate max-w-[160px]">Đang tải...</span>
+                <button id="logout-btn" title="Đăng xuất" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition cursor-pointer">
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                </button>
             </div>
         </header>
 
@@ -176,13 +168,13 @@
                     <div id="view-files" class="hidden space-y-4">
                         <div class="bg-white p-4 rounded-3xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
                             <div class="flex items-center gap-2.5">
-                                <h2 id="current-view-title" class="font-bold text-slate-800 text-base">Thư viện tài liệu</h2>
+                                <h2 id="current-view-title" class="font-bold text-slate-800 text-base">Tất cả tài liệu</h2>
                                 <span id="doc-count-badge" class="text-xs font-bold bg-indigo-50 text-indigo-600 px-3 py-0.5 rounded-full">0 tệp</span>
                             </div>
 
                             <div class="flex items-center gap-2">
                                 <select id="filter-category" onchange="renderFilesList()" class="px-3 py-1.5 rounded-2xl border border-slate-200 text-xs font-bold text-slate-600 bg-slate-50 outline-none focus:border-indigo-400">
-                                    <option value="ALL">Tất cả danh mục</option>
+                                    <option value="ALL">Tất cả thư mục</option>
                                 </select>
                                 <select id="filter-type" onchange="renderFilesList()" class="px-3 py-1.5 rounded-2xl border border-slate-200 text-xs font-bold text-slate-600 bg-slate-50 outline-none focus:border-indigo-400">
                                     <option value="ALL">Mọi định dạng</option>
@@ -223,7 +215,7 @@
                                     <i data-lucide="sparkles" class="w-3 h-3"></i> Chào ngày mới!
                                 </span>
                                 <h2 id="greeting-title" class="text-base font-bold leading-snug">Chào bạn!</h2>
-                                <p class="text-[11px] text-blue-100 mt-0.5">Chúc một ngày học tập hiệu quả ✨</p>
+                                <p class="text-[11px] text-blue-100 mt-0.5">Không gian lưu trữ riêng tư ✨</p>
                             </div>
 
                             <div class="bg-white/15 backdrop-blur-xs rounded-2xl px-3 py-2 text-right shrink-0">
@@ -294,7 +286,7 @@
     </div>
 
     <!-- ==========================================
-         3. MODAL UPLOAD TÀI LIỆU (ĐÃ BỎ BẮT BUỘC TIÊU ĐỀ & THƯ MỤC)
+         3. MODAL UPLOAD TÀI LIỆU
     ========================================== -->
     <div id="upload-modal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-slate-100">
@@ -407,42 +399,12 @@
     </div>
 
     <!-- ==========================================
-         6. NGĂN KÉO NHẮN TIN NHÓM (CHAT DRAWER)
-    ========================================== -->
-    <div id="chat-drawer" class="hidden fixed inset-y-0 right-0 w-80 sm:w-96 bg-white shadow-2xl border-l border-slate-200/80 z-40 flex flex-col">
-        <div class="h-14 px-5 bg-gradient-to-r from-indigo-600 to-blue-600 text-white flex items-center justify-between shrink-0">
-            <div class="flex items-center gap-2.5">
-                <div class="w-7 h-7 rounded-xl bg-white/20 flex items-center justify-center">
-                    <i data-lucide="messages-square" class="w-4 h-4"></i>
-                </div>
-                <div>
-                    <h3 class="font-bold text-sm">Trò chuyện nhóm</h3>
-                    <p class="text-[10px] text-indigo-100">Trao đổi trực tuyến theo thời gian thực</p>
-                </div>
-            </div>
-            <button onclick="toggleChatDrawer()" class="p-1.5 hover:bg-white/20 rounded-xl cursor-pointer"><i data-lucide="x" class="w-4 h-4"></i></button>
-        </div>
-
-        <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-[#f8fafc] text-sm">
-            <div class="text-center text-xs text-slate-400 py-8">Đang tải hội thoại...</div>
-        </div>
-
-        <form id="chat-form" class="p-3 bg-white border-t border-slate-100 flex gap-2">
-            <input type="text" id="chat-input" required placeholder="Nhập tin nhắn..."
-                class="flex-1 px-3.5 py-2 rounded-2xl border border-slate-200 text-sm outline-none focus:ring-2 focus:ring-indigo-500/30">
-            <button type="submit" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-2xl text-xs flex items-center gap-1 cursor-pointer">
-                <i data-lucide="send" class="w-3.5 h-3.5"></i>
-            </button>
-        </form>
-    </div>
-
-    <!-- ==========================================
          JAVASCRIPT XỬ LÝ
     ========================================== -->
     <script>
         // 1. CẤU HÌNH SUPABASE (DÁN PUBLISHABLE KEY CỦA BẠN VÀO ĐÂY)
         const SUPABASE_URL = 'https://qbtplsnpamgzilyzmbxd.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_8Fh0_TfkHImoPGO748DzAg_zFPeJCo1';
+        const SUPABASE_ANON_KEY = 'DAN_PUBLISHABLE_KEY_CUA_BAN_VAO_DAY';
 
         const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -478,8 +440,6 @@
             fetchWeather();
             renderCalendar();
             await loadDocuments();
-            loadMessages();
-            setInterval(loadMessages, 4000);
         }
 
         document.getElementById('logout-btn').addEventListener('click', async () => {
@@ -627,7 +587,7 @@
         }
 
         function updateStorageMeter() {
-            const activeDocs = allDocuments.filter(d => !d.is_trashed);
+            const activeDocs = allDocuments.filter(d => !d.is_trashed && d.user_id === currentUser.id);
             const totalBytes = activeDocs.reduce((sum, d) => sum + (d.file_size || 0), 0);
             const maxBytes = 1024 * 1024 * 1024;
             const percent = Math.min(100, ((totalBytes / maxBytes) * 100)).toFixed(1);
@@ -742,7 +702,6 @@
                 activeNav.className = 'nav-item w-full flex items-center gap-3 px-3.5 py-2 rounded-2xl bg-indigo-50/80 text-indigo-700 font-bold transition cursor-pointer';
             }
 
-            // Tự động làm mới dữ liệu từ Supabase mỗi khi chuyển tab để không bỏ sót tài liệu vừa chia sẻ
             await loadDocuments();
 
             if (tab === 'dashboard') {
@@ -754,7 +713,7 @@
                 document.getElementById('view-files').classList.remove('hidden');
 
                 const titles = {
-                    'all': 'Thư viện tài liệu chung',
+                    'all': 'Tất cả tài liệu (Của tôi & Được chia sẻ)',
                     'mine': 'Tài liệu của tôi',
                     'recent': 'Tài liệu mở gần đây',
                     'starred': 'Tài liệu ưa thích',
@@ -797,27 +756,31 @@
                 options: { responsive: true, maintainAspectRatio: false, cutout: '65%', plugins: { legend: { position: 'bottom', labels: { boxWidth: 7, padding: 6, font: { family: 'Mona Sans', size: 9, weight: 'bold' } } } } }
             });
 
-            const recentHtml = activeDocs.slice(0, 6).map(doc => `
+            const recentHtml = activeDocs.slice(0, 6).map(doc => {
+                const isOwner = doc.user_id === currentUser.id;
+                return `
                 <div class="px-5 py-3 flex items-center justify-between hover:bg-slate-50/80 transition">
                     <div class="flex items-center gap-3 min-w-0">
                         ${getFileIconBadge(doc.file_name)}
                         <div class="min-w-0">
                             <p class="font-bold text-xs text-slate-800 truncate">${doc.title}</p>
-                            <p class="text-[11px] font-medium text-slate-400">${doc.category} • ${formatBytes(doc.file_size)} • ${doc.author_email}</p>
+                            <p class="text-[11px] font-medium text-slate-400">${doc.category} • ${formatBytes(doc.file_size)} • ${isOwner ? 'Của tôi' : 'Từ: ' + doc.author_email}</p>
                         </div>
                     </div>
                     <div class="flex items-center gap-1.5 shrink-0">
                         <button onclick="openPreviewModal('${doc.id}')" class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 text-xs font-bold rounded-xl flex items-center gap-1 cursor-pointer transition">
                             <i data-lucide="eye" class="w-3.5 h-3.5"></i> Xem
                         </button>
-                        <button onclick="openShareModal('${doc.id}')" class="px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold rounded-xl flex items-center gap-1 cursor-pointer transition">
-                            <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
-                        </button>
+                        ${isOwner ? `
+                            <button onclick="openShareModal('${doc.id}')" title="Chia sẻ" class="px-2.5 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-bold rounded-xl flex items-center gap-1 cursor-pointer transition">
+                                <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+                            </button>
+                        ` : ''}
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
 
-            document.getElementById('recent-docs-table').innerHTML = recentHtml || `<div class="p-8 text-center text-xs font-medium text-slate-400">Chưa có tài liệu nào trên hệ thống</div>`;
+            document.getElementById('recent-docs-table').innerHTML = recentHtml || `<div class="p-8 text-center text-xs font-medium text-slate-400">Không gian lưu trữ của bạn đang trống. Hãy tải lên tài liệu đầu tiên!</div>`;
             lucide.createIcons();
         }
 
@@ -834,7 +797,7 @@
             const myEmail = (currentUser.email || '').trim().toLowerCase();
 
             let filtered = allDocuments.filter(doc => {
-                if (currentTab === 'trash') return doc.is_trashed === true;
+                if (currentTab === 'trash') return doc.is_trashed === true && doc.user_id === currentUser.id;
                 if (doc.is_trashed) return false;
 
                 const sharedList = Array.isArray(doc.shared_with) ? doc.shared_with.map(e => String(e).trim().toLowerCase()) : [];
@@ -870,9 +833,11 @@
                 <tr class="hover:bg-indigo-50/30 transition group">
                     <td class="py-3 px-4">
                         <div class="flex items-center gap-2.5">
-                            <button onclick="toggleStar('${doc.id}', ${doc.is_starred})" class="cursor-pointer hover:scale-110 transition ${doc.is_starred ? 'text-amber-400' : 'text-slate-300 hover:text-amber-400'}" title="Gắn sao">
-                                <i data-lucide="star" class="w-4 h-4 ${doc.is_starred ? 'fill-amber-400' : ''}"></i>
-                            </button>
+                            ${isOwner ? `
+                                <button onclick="toggleStar('${doc.id}', ${doc.is_starred})" class="cursor-pointer hover:scale-110 transition ${doc.is_starred ? 'text-amber-400' : 'text-slate-300 hover:text-amber-400'}" title="Gắn sao">
+                                    <i data-lucide="star" class="w-4 h-4 ${doc.is_starred ? 'fill-amber-400' : ''}"></i>
+                                </button>
+                            ` : `<span class="w-4"></span>`}
                             ${getFileIconBadge(doc.file_name)}
                             <div class="min-w-0 max-w-[200px]">
                                 <p onclick="openPreviewModal('${doc.id}')" class="font-bold text-xs text-slate-800 hover:text-indigo-600 cursor-pointer truncate">${doc.title}</p>
@@ -884,20 +849,24 @@
                         <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-600">${doc.category}</span>
                     </td>
                     <td class="py-3 px-3 text-xs font-semibold text-slate-500">${formatBytes(doc.file_size)}</td>
-                    <td class="py-3 px-3 text-xs font-semibold text-slate-600">${isOwner ? '<span class="text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full text-[11px]">Tôi</span>' : doc.author_email.split('@')[0]}</td>
+                    <td class="py-3 px-3 text-xs font-semibold text-slate-600">${isOwner ? '<span class="text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-full text-[11px]">Tôi</span>' : doc.author_email}</td>
                     <td class="py-3 px-4 text-right space-x-1 whitespace-nowrap">
                         <button onclick="openPreviewModal('${doc.id}')" title="Mở xem" class="inline-flex items-center gap-1 px-2.5 py-1 bg-indigo-50 hover:bg-indigo-100 text-indigo-600 rounded-xl text-xs font-bold cursor-pointer transition">
                             <i data-lucide="eye" class="w-3.5 h-3.5"></i> Xem
                         </button>
-                        <button onclick="openShareModal('${doc.id}')" title="Chia sẻ" class="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-xl text-xs font-bold cursor-pointer transition">
-                            <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Chia sẻ
-                        </button>
-                        ${isOwner ? (doc.is_trashed ? `
-                            <button onclick="restoreDoc('${doc.id}')" class="inline-flex items-center gap-1 px-2 py-1 bg-amber-50 text-amber-700 rounded-xl text-xs font-bold cursor-pointer"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i></button>
-                            <button onclick="deleteForever('${doc.id}', '${doc.file_path}')" class="inline-flex items-center gap-1 px-2 py-1 bg-rose-50 text-rose-600 rounded-xl text-xs font-bold cursor-pointer"><i data-lucide="x-circle" class="w-3.5 h-3.5"></i></button>
+                        ${isOwner ? `
+                            <button onclick="openShareModal('${doc.id}')" title="Chia sẻ" class="inline-flex items-center gap-1 px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-xl text-xs font-bold cursor-pointer transition">
+                                <i data-lucide="share-2" class="w-3.5 h-3.5"></i> Chia sẻ
+                            </button>
+                            ${doc.is_trashed ? `
+                                <button onclick="restoreDoc('${doc.id}')" title="Khôi phục" class="inline-flex items-center gap-1 px-2 py-1 bg-amber-50 text-amber-700 rounded-xl text-xs font-bold cursor-pointer"><i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i></button>
+                                <button onclick="deleteForever('${doc.id}', '${doc.file_path}')" title="Xóa vĩnh viễn" class="inline-flex items-center gap-1 px-2 py-1 bg-rose-50 text-rose-600 rounded-xl text-xs font-bold cursor-pointer"><i data-lucide="x-circle" class="w-3.5 h-3.5"></i></button>
+                            ` : `
+                                <button onclick="moveToTrash('${doc.id}')" title="Chuyển vào thùng rác" class="inline-flex items-center p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl cursor-pointer transition"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                            `}
                         ` : `
-                            <button onclick="moveToTrash('${doc.id}')" title="Xóa" class="inline-flex items-center p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl cursor-pointer transition"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
-                        `) : ''}
+                            <span class="inline-flex items-center px-2 py-1 bg-slate-100 text-slate-500 rounded-xl text-[10px] font-bold">Chỉ xem</span>
+                        `}
                     </td>
                 </tr>`;
             }).join('');
@@ -1026,7 +995,6 @@
             renderSharedUsersList(allDocuments.find(d => d.id === activeShareDocId));
         }
 
-        // SAO, UPLOAD (TỰ ĐỘNG ĐIỀN TIÊU ĐỀ & THƯ MỤC NẾU BỎ TRỐNG) & THÙNG RÁC
         async function toggleStar(docId, currentVal) {
             await supabaseClient.from('documents').update({ is_starred: !currentVal }).eq('id', docId);
             loadDocuments();
@@ -1067,11 +1035,9 @@
 
                 const { data: urlData } = supabaseClient.storage.from('documents').getPublicUrl(filePath);
 
-                // Nếu bỏ trống tiêu đề -> tự lấy tên file gốc (bỏ đuôi mở rộng)
                 const rawTitle = document.getElementById('doc-title').value.trim();
                 const autoTitle = rawTitle || file.name.replace(/\.[^/.]+$/, "");
 
-                // Nếu bỏ trống thư mục -> tự xếp vào "Tài liệu chung"
                 const rawCategory = document.getElementById('doc-category').value.trim();
                 const autoCategory = rawCategory || 'Tài liệu chung';
 
@@ -1098,44 +1064,6 @@
                 btn.disabled = false;
                 btn.textContent = 'Tải lên ngay';
             }
-        });
-
-        // NHẮN TIN NHÓM
-        function toggleChatDrawer() {
-            const drawer = document.getElementById('chat-drawer');
-            drawer.classList.toggle('hidden');
-            if (!drawer.classList.contains('hidden')) loadMessages();
-        }
-
-        async function loadMessages() {
-            const { data } = await supabaseClient.from('messages').select('*').order('created_at', { ascending: true }).limit(50);
-            if (!data) return;
-
-            const container = document.getElementById('chat-messages');
-            container.innerHTML = data.map(m => {
-                const isMe = m.sender_email === currentUser.email;
-                const time = new Date(m.created_at).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
-                return `
-                <div class="flex flex-col ${isMe ? 'items-end' : 'items-start'}">
-                    <span class="text-[10px] font-bold text-slate-400 mb-0.5 px-1">${isMe ? 'Bạn' : m.sender_email.split('@')[0]} • ${time}</span>
-                    <div class="px-3.5 py-2 rounded-2xl max-w-[85%] font-medium break-words shadow-2xs ${isMe ? 'bg-indigo-600 text-white rounded-br-sm' : 'bg-white border border-slate-200/80 text-slate-700 rounded-bl-sm'}">
-                        ${m.content}
-                    </div>
-                </div>`;
-            }).join('') || `<div class="text-center text-xs text-slate-400 py-8">Chưa có tin nhắn nào. Hãy gửi lời chào!</div>`;
-        }
-
-        document.getElementById('chat-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const input = document.getElementById('chat-input');
-            const text = input.value.trim();
-            if (!text) return;
-
-            input.value = '';
-            await supabaseClient.from('messages').insert([{ sender_email: currentUser.email, content: text }]);
-            await loadMessages();
-            const container = document.getElementById('chat-messages');
-            container.scrollTop = container.scrollHeight;
         });
 
         initApp();

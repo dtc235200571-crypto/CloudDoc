@@ -865,7 +865,9 @@
                                 <button onclick="moveToTrash('${doc.id}')" title="Chuyển vào thùng rác" class="inline-flex items-center p-1.5 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl cursor-pointer transition"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                             `}
                         ` : `
-                            <span class="inline-flex items-center px-2 py-1 bg-slate-100 text-slate-500 rounded-xl text-[10px] font-bold">Chỉ xem</span>
+                            <button onclick="saveCopyToMyDrive('${doc.id}', this)" title="Tạo bản sao lưu vào tài khoản của tôi" class="inline-flex items-center gap-1 px-2.5 py-1 bg-sky-50 hover:bg-sky-100 text-sky-700 rounded-xl text-xs font-bold cursor-pointer transition">
+    <i data-lucide="copy-plus" class="w-3.5 h-3.5"></i> Lưu về của tôi
+</button>
                         `}
                     </td>
                 </tr>`;
@@ -1065,6 +1067,58 @@
                 btn.textContent = 'Tải lên ngay';
             }
         });
+        // TẠO BẢN SAO TÀI LIỆU ĐƯỢC CHIA SẺ VÀO DRIVE CỦA TÔI
+        async function saveCopyToMyDrive(docId, btnElement) {
+            const doc = allDocuments.find(d => d.id === docId);
+            if (!doc) return;
+
+            const originalHtml = btnElement.innerHTML;
+            btnElement.disabled = true;
+            btnElement.innerHTML = 'Đang lưu...';
+
+            try {
+                // 1. Tải dữ liệu tệp gốc về bộ nhớ tạm trình duyệt
+                const response = await fetch(doc.file_url);
+                if (!response.ok) throw new Error('Không thể đọc tệp gốc từ máy chủ');
+                const fileBlob = await response.blob();
+
+                // 2. Tạo đường dẫn lưu trữ mới thuộc quyền sở hữu của người nhận
+                const ext = doc.file_name.split('.').pop();
+                const newFilePath = `${currentUser.id}/${Date.now()}_${Math.random().toString(36).substring(2, 7)}.${ext}`;
+
+                // 3. Tải bản sao lên Supabase Storage dưới thư mục của người nhận
+                const { error: upErr } = await supabaseClient.storage
+                    .from('documents')
+                    .upload(newFilePath, fileBlob, { contentType: fileBlob.type });
+                if (upErr) throw upErr;
+
+                const { data: urlData } = supabaseClient.storage
+                    .from('documents')
+                    .getPublicUrl(newFilePath);
+
+                // 4. Lưu bản ghi mới vào Database với user_id là người nhận
+                const { error: dbErr } = await supabaseClient.from('documents').insert([{
+                    title: `${doc.title} (Bản sao)`,
+                    category: doc.category || 'Tài liệu chung',
+                    description: doc.description || '',
+                    file_url: urlData.publicUrl,
+                    file_path: newFilePath,
+                    file_name: doc.file_name,
+                    file_size: doc.file_size,
+                    user_id: currentUser.id,
+                    author_email: currentUser.email,
+                    shared_with: []
+                }]);
+                if (dbErr) throw dbErr;
+
+                alert(`Đã lưu "${doc.title} (Bản sao)" vào mục Tài liệu của tôi!`);
+                await loadDocuments();
+            } catch (err) {
+                alert('Lỗi khi lưu bản sao: ' + err.message);
+                btnElement.disabled = false;
+                btnElement.innerHTML = originalHtml;
+            }
+        }
 
         initApp();
     </script>
